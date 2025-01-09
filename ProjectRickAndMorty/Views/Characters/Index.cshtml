@@ -1,0 +1,48 @@
+﻿@model List<Character>
+
+<h1>Rick and Morty Characters</h1>
+
+<form method="get">
+    <label for="status">Status:</label>
+    <select name="status" id="status">
+        <option value="">All</option>
+        <option value="Alive">Alive</option>
+        <option value="Dead">Dead</option>
+        <option value="unknown">Unknown</option>
+    </select>
+
+    <label for="species">Species:</label>
+    <input type="text" name="species" id="species" />
+
+    <label for="sortBy">Sort By:</label>
+    <select name="sortBy" id="sortBy">
+        <option value="name">Name</option>
+        <option value="origin">Origin</option>
+    </select>
+
+    <button type="submit">Filter</button>
+</form>
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Status</th>
+            <th>Species</th>
+            <th>Gender</th>
+            <th>Origin</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var character in Model)
+        {
+            <tr>
+                <td>@character.Name</td>
+                <td>@character.Status</td>
+                <td>@character.Species</td>
+                <td>@character.Gender</td>
+                <td>@character.Origin</td>
+            </tr>
+        }
+    </tbody>
+</table>
