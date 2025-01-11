@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Localization
+@{
+    var cultureFeature = Context.Features.Get<IRequestCultureFeature>();
+    var currentCulture = cultureFeature?.RequestCulture.Culture.Name;
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -25,6 +30,8 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+
+
                     </ul>
                 </div>
             </div>
@@ -40,10 +47,30 @@
         <div class="container">
             &copy; 2025 - ProjectRickAndMorty - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
+
+        <form asp-controller="Home" asp-action="ChangeLanguage" method="get" class="language-switcher">
+            <select id="language" name="culture" onchange="this.form.submit();" class="form-select">
+                <option value="en" selected="@(currentCulture == "en")">English</option>
+                <option value="de" selected="@(currentCulture == "de")">German</option>
+            </select>
+            <input type="hidden" name="returnUrl" value="@Context.Request.Path" />
+        </form>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
+<script>
+
+    const languageElement = document.getElementById("language");
+
+    selectElement.addEventListener("change", function () {
+        const languageSelected = languageElement.value;
+        document.cookie = "Culture=" + languageSelected + ";path=/;SameSite=Strict";
+        location.reload();
+    });
+
+    
+</script>
 </html>

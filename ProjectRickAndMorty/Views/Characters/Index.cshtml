@@ -1,36 +1,37 @@
-﻿@model List<Character>
+﻿@using ProjectRickAndMorty.Resources;
+@model List<CharacterModel>
 
-<h1>Rick and Morty Characters</h1>
+<h1>@Resources.Home Characters</h1>
 
 <form method="get">
-    <label for="status">Status:</label>
+    <label for="status">@Resources.Status:</label>
     <select name="status" id="status">
-        <option value="">All</option>
-        <option value="Alive">Alive</option>
-        <option value="Dead">Dead</option>
-        <option value="unknown">Unknown</option>
+        <option value="">@Resources.All</option>
+        <option value="Alive">@Resources.Alive</option>
+        <option value="Dead">@Resources.Dead</option>
+        <option value="unknown">@Resources.Unknown</option>
     </select>
 
-    <label for="species">Species:</label>
+    <label for="species">@Resources.Species:</label>
     <input type="text" name="species" id="species" />
 
-    <label for="sortBy">Sort By:</label>
+    <label for="sortBy">@Resources.SortBy:</label>
     <select name="sortBy" id="sortBy">
-        <option value="name">Name</option>
-        <option value="origin">Origin</option>
+        <option value="name">@Resources.Name</option>
+        <option value="origin">@Resources.Origin</option>
     </select>
 
-    <button type="submit">Filter</button>
+    <button type="submit">@Resources.Filter</button>
 </form>
 
 <table>
     <thead>
         <tr>
-            <th>Name</th>
-            <th>Status</th>
-            <th>Species</th>
-            <th>Gender</th>
-            <th>Origin</th>
+            <th>@Resources.Name</th>
+            <th>@Resources.Status</th>
+            <th>@Resources.Species</th>
+            <th>@Resources.SpeciesGender</th>
+            <th>@Resources.Origin</th>
         </tr>
     </thead>
     <tbody>

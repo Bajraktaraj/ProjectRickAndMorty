@@ -19,7 +19,7 @@ namespace ProjectRickAndMorty.Controllers
             _client = new GraphQLHttpClient("https://rickandmortyapi.com/graphql", new NewtonsoftJsonSerializer());
         }
 
-        public async Task<IActionResult> Index(string status = null, string species = null, string sortBy = "name", int page = 1)
+        public async Task<IActionResult> Index(string status = "", string species = "", string sortBy = "name", int page = 1)
         {
             var query = @"
             query ($page: Int, $status: String, $species: String) {
@@ -43,21 +43,18 @@ namespace ProjectRickAndMorty.Controllers
                 Variables = variables
             };
 
-            var response = await _client.SendQueryAsync<dynamic>(request);
-            var charactersData = response.Data.characters.results;
+            var response = await _client.SendQueryAsync<RickAndMortyAPIResponseModel>(request);
 
             // Përpunimi i të dhënave dhe siguria që të gjitha fushat janë të tipit string
-            var characters = ((IEnumerable<dynamic>)charactersData).Select(c => new Character
+            var characters = response.Data.Characters.Results.Select(c => new CharacterModel
             {
-                Name = c.name?.ToString() ?? "Unknown",
-                Status = FormatStatus(c.status?.ToString() ?? "Unknown"),
-                Species = c.species?.ToString() ?? "Unknown",
-                Gender = c.gender?.ToString() ?? "Unknown",
-                Origin = c.origin?.name?.ToString() ?? "Unknown"
+                Name = c.Name?.ToString() ?? "Unknown",
+                Status = FormatStatus(c.Status?.ToString() ?? "Unknown"),
+                Species = c.Species?.ToString() ?? "Unknown",
+                Gender = c.Gender?.ToString() ?? "Unknown",
+                Origin = c.Origin?.Name?.ToString() ?? "Unknown"
             }).ToList();
 
-
-            // Renditja sipas kërkesës
             switch (sortBy.ToLower())
             {
                 case "name":
@@ -68,7 +65,6 @@ namespace ProjectRickAndMorty.Controllers
                     break;
             }
 
-            // Dërgimi i variablave në pamjen (View)
             ViewBag.Status = status;
             ViewBag.Species = species;
             ViewBag.SortBy = sortBy;

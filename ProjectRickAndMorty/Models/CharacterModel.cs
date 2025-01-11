@@ -1,6 +1,6 @@
 ﻿namespace ProjectRickAndMorty.Models
 {
-    public class Character
+    public class CharacterModel
     {
         public string Name { get; set; }
         public string Status { get; set; }

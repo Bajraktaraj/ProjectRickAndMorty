@@ -1,18 +1,13 @@
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using ProjectRickAndMorty.Models;
 using System.Diagnostics;
+using System.Globalization;
 
 namespace ProjectRickAndMorty.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
-
         public IActionResult Index()
         {
             return View();
@@ -23,10 +18,18 @@ namespace ProjectRickAndMorty.Controllers
             return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public IActionResult ChangeLanguage(string culture)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var cultureInfo = new CultureInfo(culture);
+            CultureInfo.CurrentCulture = cultureInfo;
+            CultureInfo.CurrentUICulture = cultureInfo;
+
+            Response.Cookies.Append("Culture", culture, new CookieOptions
+            {
+                Expires = DateTime.UtcNow.AddYears(1)
+            });
+            
+            return Redirect(Request.Headers["Referer"].ToString());
         }
     }
 }
