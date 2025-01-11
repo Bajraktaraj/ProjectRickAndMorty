@@ -45,7 +45,7 @@ namespace ProjectRickAndMorty.Controllers
 
             var response = await _client.SendQueryAsync<RickAndMortyAPIResponseModel>(request);
 
-            // Përpunimi i të dhënave dhe siguria që të gjitha fushat janë të tipit string
+           
             var characters = response.Data.Characters.Results.Select(c => new CharacterModel
             {
                 Name = c.Name?.ToString() ?? "Unknown",
